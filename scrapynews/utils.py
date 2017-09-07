@@ -189,7 +189,7 @@ def send_maile(subject,contents):
     receiver='wpp10345@cnki.net'
     smtpserver='smtp.163.com'
     username='kfpapanda@163.com'
-    passwd='kfpapanda163'
+    passwd='*******'
     msg_root=MIMEMultipart('related')
     msg_root['Subject']=subject
     msg_root['From']=sender
