@@ -7,6 +7,7 @@ from scrapy.spiders import CrawlSpider, Rule
 from scrapywork.items import articleItem
 from scrapy.http import Request
 from scrapywork.utils import parse_item
+from scrapywork.utils import getarticlerules
 
 class ArticleSpider(CrawlSpider):
     name = 'articleSpider'

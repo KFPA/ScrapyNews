@@ -70,7 +70,6 @@ class ScrapyworkSpiderMiddleware(object):
 class IpPoolsMiddleware(HttpProxyMiddleware):
     def __init__(self,ip=''):
         self.ip=ip
-        initIPPOOL()
     def process_request(self, request, spider):
         thisip = random.choice(IPPOOL)
         print('the current ip is:'+ thisip['ipaddr'])

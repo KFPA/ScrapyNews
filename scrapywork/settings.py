@@ -56,8 +56,8 @@ SPIDER_MIDDLEWARES = {
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
 #    'scrapywork.middlewares.MyCustomDownloaderMiddleware': 543,
-   # 'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware':123,
-  #  'scrapywork.middlewares.IpPoolsMiddleware':125,
+    #'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware':123,
+    #'scrapywork.middlewares.IpPoolsMiddleware':125,
     'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware':2,
     'scrapywork.middlewares.UaPoolsMiddleware':1,
 }
@@ -71,7 +71,7 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'scrapywork.pipelines.ArticlePipeline': 300,
+    'scrapywork.pipelines.ArticlePipeline': 300,
     'scrapy.pipelines.files.FilesPipeline':2,
     'scrapywork.pipelines.OptimizeImagesPipeline':1,
 }
@@ -105,14 +105,14 @@ DUPEFILTER_CLASS='scrapywork.middlewares.UrlFilter'
 #SCHEDULER_MEMORY_QUEUE='scrapy.squeue.FifoMemoryQueue'
 
 #下载文件设置
-FILES_STORE='F:\\Data\\Files'
+FILES_STORE='E:\\Data\\Files'
 FILES_URLS_FIELD='file_urls'
 FILES_RESULT_FIELD='files'
 FILES_EXPIRES=30      #30 天过期
 FILES_UPLOAD_PATH='SPORTS\\FILES'
 
 #下载图片设置
-IMAGES_STORE='F:\\Data\\Images'
+IMAGES_STORE='E:\\Data\\Images'
 IMAGES_URLS_FIELD='image_urls'
 IMAGES_RESULT_FIELD='images'
 IMAGES_EXPIRES=30   #30 天过期
@@ -140,10 +140,11 @@ db = {      'host': '127.0.0.1',
             'user': 'root',
             'passwd': 'kfpa',
             'db': 'article',
-            'table':'articleinfo'
+            'table':'articleinfo',
+            'charset':'utf8'
 }
 
-USE_SPECIFIED_IPPOOL = True
+USE_SPECIFIED_IPPOOL = False
 
 IPPOOL=[
     {'ipaddr':'118.188.20.162:8080'},

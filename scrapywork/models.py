@@ -61,7 +61,7 @@ import logging
 from scrapywork.settings import db
 class DatabaseSingleton(object):
     def __init__(self):
-        self.database=pymysql.connect(host=db.get('host'),user=db.get('user'),passwd=db.get('passwd'),db=db.get('db'))
+        self.database=pymysql.connect(host=db.get('host'),user=db.get('user'),passwd=db.get('passwd'),db=db.get('db'),charset=db.get('charset'))
         self.table=db.get('table')
         self.ensuretableexist()
 
@@ -76,8 +76,9 @@ class DatabaseSingleton(object):
                 sql='CREATE TABLE %s(id int(10) auto_increment primary key not null,url varchar(100),INDEX urlidx(url),site varchar(100),title varchar(100),time varchar(30),type varchar(100),publish varchar(30),abstract varchar(300),label varchar(30),keyword varchar(30),html text(65535),text text(65535),xml text(65535),source text(65535))' \
                     % self.table
                 cursor.execute(sql)
-        except:
+        except Exception as e:
             self.database.rollback()
+            logging.error('--------------ensure table false-------------------exception:%s',e)
         finally:
             cursor.close()
 
@@ -87,10 +88,12 @@ class DatabaseSingleton(object):
             sql='INSERT INTO {}(url,site,title,time,type,publish,html,text,xml,source) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'.format(self.table)
             cursor.execute( sql,(url, site, title, time, type, publish, html, text, xml, sources))
             self.database.commit()
-        except:
+        except Exception as e:
             self.database.rollback()
+            logging.error('--------------insert false-------------------exception:%s',e)
         finally:
             cursor.close()
+
 
     def queryItem(self,url):
         try:
@@ -103,7 +106,7 @@ class DatabaseSingleton(object):
             else:
                 return False
         except:
-            logging.info('query database error in url:%s'% url)
+            logging.error('query database error in url:%s'% url)
             return False
         finally:
             cursor.close()
@@ -120,7 +123,7 @@ class DatabaseSingleton(object):
                 cursor.execute(sql)
             return cursor.fetchone()[0]
         except:
-            logging.info('query site error in database:%s'% site)
+            logging.error('query site error in database:%s'% site)
         finally:
             cursor.close()
 
@@ -135,18 +138,22 @@ import ctypes
 from ctypes import *
 from scrapywork.settings import hfs
 from scrapywork.settings import IMAGES_STORE,FILES_STORE,IMAGES_UPLOAD_PATH_FULL,IMAGES_UPLOAD_PATH_SMALL,FILES_UPLOAD_PATH
+import os
 
 class CHfs(object):
     def __init__(self):
-        self.hfsdll=ctypes.CDLL('./hfs/hfsclient.dll')
+        dlldir=os.getcwd()+'\\scrapywork\\hfs\\hfsclient.dll'
+        self.hfsdll=ctypes.CDLL(dlldir)
         if self.hfsdll:
             self.hfsdll.InitApplication.restype = c_bool
             self.hfsdll.InitApplication.argtypes = (c_char_p, c_uint, c_int, c_char_p, c_char_p)
             bRet=self.hfsdll.InitApplication(bytes(hfs.get('ipaddr'),'utf-8'), int(hfs.get('port')), int(hfs.get('appid')), bytes(hfs.get('appname'),'utf-8'),bytes(hfs.get('appkey'),'utf-8'))
             if not bRet:
-                logging.error('hfsdll init failed.')
+                logging.error('----------------hfsdll init failed.----------------')
+            else:
+                logging.info('-------------------hfsdll load success.----------------')
         else:
-            logging.error('load dll failed.')
+            logging.error('----------------------load dll failed.------------------')
 
     def UploadStreamX(self,szsrc,szdst):
         if self.hfsdll:
@@ -215,4 +222,4 @@ hfs=CHfs()
 
 
 if __name__ == "__main__":
-    mysqldb.queryItemCount(site='athlet-ics.org.cn')
+    h=CHfs()

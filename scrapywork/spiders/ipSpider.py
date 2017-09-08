@@ -1,4 +1,6 @@
 import requests
+import urllib
+import logging
 from scrapywork.settings import IPPOOL
 from scrapywork.settings import USE_SPECIFIED_IPPOOL
 import re
@@ -15,11 +17,7 @@ def gethtmlXiciDaili():
         return r.text
     except:
         return ''
-'''
-#ip_list > tbody > tr:nth-child(2)
-#ip_list > tbody > tr:nth-child(2) > td:nth-child(2)
-#ip_list > tbody > tr:nth-child(2) > td:nth-child(2)
-'''
+
 def parsehtml(html):
     patips='<td>([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)</td>'
     ips=re.compile(patips).findall(html)
@@ -29,9 +27,31 @@ def parsehtml(html):
     for (ip,port) in zip(ips,ports):
         ipaddr={}
         ipaddr['ipaddr']='{}:{}'.format(ip,port)
-        IPPOOL.append(ipaddr)
+        if detectip(ipaddr['ipaddr']):
+            IPPOOL.append(ipaddr)
+
+def detectip(ipaddr):
+        detctipurl='http://www.whatismyip.com.tw/'
+        detcttimeout=0.5
+        opener=urllib.request.build_opener(urllib.request.ProxyHandler({'http':ipaddr}))
+        urllib.request.install_opener(opener)
+        try:
+            response = urllib.request.urlopen(detctipurl,timeout=detcttimeout)
+            print('%s is available.' % ipaddr)
+            return True
+        except:
+            logging.info('%s is disavailable.'% ipaddr)
+            return False
+
+
 
 def initIPPOOL():
     if not USE_SPECIFIED_IPPOOL:
+        logging.info('构建IP池')
         html = gethtmlXiciDaili()
         parsehtml(html)
+        logging.info('IP池构建完成，%s 个IP可用',len(IPPOOL))
+
+if __name__=='__main__':
+    initIPPOOL()
+    print(IPPOOL)

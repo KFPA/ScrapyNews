@@ -27,6 +27,7 @@ class ArticlePipeline(object):
             return item
         except:
             raise DropItem('Cannot Insert %s into mysql database'% item)
+
             logging.info('db error')
 
     def _parse_sourceandhtml(self,images,files,html):

@@ -7,11 +7,13 @@ from scrapywork.utils import send_maile
 from scrapywork.utils import get_maile_content
 from scrapywork.utils import get_allitem_count
 from scrapywork.spiders.articleSpider import ArticleSpider
+from scrapywork.spiders.ipSpider import initIPPOOL
 from twisted.internet import reactor
 from scrapywork.spiders.autoSpider import AutoSpider
 import datetime
-import time
+
 if __name__ =="__main__":
+    #initIPPOOL()
     settings=get_project_settings()
     configure_logging(settings)
 
