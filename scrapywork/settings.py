@@ -56,8 +56,8 @@ SPIDER_MIDDLEWARES = {
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
 #    'scrapywork.middlewares.MyCustomDownloaderMiddleware': 543,
-    #'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware':123,
-    #'scrapywork.middlewares.IpPoolsMiddleware':125,
+    'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware':123,
+    'scrapywork.middlewares.IpPoolsMiddleware':125,
     'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware':2,
     'scrapywork.middlewares.UaPoolsMiddleware':1,
 }
@@ -144,17 +144,6 @@ db = {      'host': '127.0.0.1',
             'charset':'utf8'
 }
 
-USE_SPECIFIED_IPPOOL = False
-
-IPPOOL=[
-    {'ipaddr':'118.188.20.162:8080'},
-    {'ipaddr':'219.141.189.236:3128'},
-    {'ipaddr':'125.89.53.242:8118'},
-    {'ipaddr':'61.160.208.222:8080'},
-    {'ipaddr':'122.7.223.169:53281'},
-    {'ipaddr':'180.124.133.62:8118'},
-    {'ipaddr':'182.122.247.253:8118'},
-]
 UAPOOL=[
     "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.86 Safari/537.36",
     "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",

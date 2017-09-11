@@ -7,6 +7,7 @@ xmlElements = {
     'CATEGORY': 'category',
     'NAME': 'name',
     'ALLOW_DOMAINS': 'allow_domains',
+    'FOREIGN':'foreign',
     'URLS': 'urls',
     'HOST_URL': 'host_url',
     'START_URLS': 'start_urls',
@@ -52,6 +53,8 @@ class ArticleRule():
     name=''
     # 运行的域名列表，逗号隔开
     allow_domains=[]
+    #是否是国外的网站，标识是否要翻墙，采用国外ip代理
+    foreign=''
     #主页url
     host_url=''
     # 开始URL列表，逗号隔开
@@ -93,7 +96,7 @@ class BaseRule(ArticleRule):
     #爬取的总页数
     pages=None
     #爬取的页面的间隔数
-    pagesetp=None
+    pagestep=None
     #自动爬取页面的url
     next_page_url=''
     #获取文章页面url的正则表达式
@@ -130,6 +133,7 @@ class SpiderRulesSingletion(object):
         spiderrule.category=SpiderCategory.get('CRAWL')
         spiderrule.name=rule.get(xmlElements.get('NAME'))
         spiderrule.allow_domains=rule.get(xmlElements.get('ALLOW_DOMAINS'))
+        spiderrule.foreign=rule.get(xmlElements.get('FOREIGN'))
 
         urls=rule.find(xmlElements.get('URLS'))
         spiderrule.host_url=urls.find(xmlElements.get('HOST_URL')).text
@@ -159,6 +163,7 @@ class SpiderRulesSingletion(object):
         spiderrule.category = SpiderCategory.get('CRAWL')
         spiderrule.name = rule.get(xmlElements.get('NAME'))
         spiderrule.allow_domains = rule.get(xmlElements.get('ALLOW_DOMAINS'))
+        spiderrule.foreign=rule.get(xmlElements.get('FOREIGN'))
 
         urls=rule.find(xmlElements.get('URLS'))
         spiderrule.host_url=urls.find(xmlElements.get('HOST_URL')).text
@@ -166,7 +171,7 @@ class SpiderRulesSingletion(object):
 
         urllist=urls.find(xmlElements.get('URLLIST'))
         spiderrule.pages=urllist.get(xmlElements.get('PAGES'))
-        spiderrule.pagesetp=urllist.get(xmlElements.get('PAGESTEP'))
+        spiderrule.pagestep=urllist.get(xmlElements.get('PAGESTEP'))
         spiderrule.url_regex=urllist.get(xmlElements.get('URL_REGEX'))
         spiderrule.next_page_url=urllist.find(xmlElements.get('NEXT_PAGE')).text
 
@@ -233,7 +238,7 @@ class ItemParser(object):
             htmls = self.response.xpath(self.rule.html_xpath).extract()
             html = r'\r\n'.join(htmls)
             if self.rule.html_regexexculde:
-                re_exclude = re.compile(rule.html_regexexculde, re.S)
+                re_exclude = re.compile(self.rule.html_regexexculde, re.S)
                 html = re_exclude.sub('', html)
             articleInfo['html'] = self._fixhtml(html)
         else:
@@ -532,10 +537,46 @@ class CHfs(object):
 hfs=CHfs()
 
 
+#################################################################################################################################################
+import requests
+import json
+import random
+class IPProxy(object):
+    def __init__(self):
+        self.inlandippool=[]
+        self.foreignippool=[]
+        self._initipproxy(0,20,10)
+
+    def _initipproxy(self,types,inlandcount,foreigncount):
+        try:
+            inlandresponse=requests.get('http://127.0.0.1:8000/?types=%s&count=%s&country=%s' % (types,inlandcount,'国内'))
+            inlandip_ports=json.loads(inlandresponse.text)
+            for inlandip in inlandip_ports:
+                self.inlandippool.append('%s:%s' % (inlandip[0],inlandip[1]))
+
+            foreignresponse = requests.get('http://127.0.0.1:8000/?types=%s&count=%s&country=%s' % (types, foreigncount,'国外'))
+            foreignip_ports = json.loads(foreignresponse.text)
+            for foreignip in foreignip_ports:
+                self.foreignippool.append('%s:%s' % (foreignip[0],foreignip[1]))
+
+            logging.info(self.inlandippool,self.foreignippool)
+        except Exception as e:
+            logging.error('init ippool error code:%s',e)
+
+    def getinlandipproxy(self):
+        return random.choice(self.inlandippool)
+
+    def getforeignipproxy(self):
+        return random.choice(self.foreignippool)
+
+Ipproxy=IPProxy()
+##################################################################################################################################################
 
 if __name__ == "__main__":
-    xmlpath = os.getcwd() + '\\rules\\rules.xml'
-    rule=SpiderRulesSingletion()
-    rule._parsexml(xmlpath)
-    print(rule.baserules)
-    print(rule.crawlrules)
+    #xmlpath = os.getcwd() + '\\rules\\rules.xml'
+    #rule=SpiderRulesSingletion()
+    #rule._parsexml(xmlpath)
+    #print(rule.baserules)
+    #print(rule.crawlrules)
+
+    ip=IPProxy()

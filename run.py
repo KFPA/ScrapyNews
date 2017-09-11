@@ -4,17 +4,15 @@ from scrapy.utils.log import configure_logging
 from scrapy.crawler import CrawlerRunner
 from scrapywork.spiders.crawlspider import CrawlspiderTemplate as crawspider
 from scrapywork.spiders.basespider import BasespiderTemplate as basespider
-from scrapywork.spiders.ipSpider import initIPPOOL
 from scrapywork.models import spiderRules as spiderrules
 from twisted.internet import reactor
 from scrapywork.models import Mail
 import datetime
 
 if __name__ =="__main__":
-    #initIPPOOL()
     settings=get_project_settings()
     configure_logging(settings)
-    mail=Mail(sender='********',passwd='********',receiver='********')
+    mail=Mail(sender='*****',passwd='******',receiver='*****')
     runner=CrawlerRunner(settings)
     for rule in spiderrules.crawlrules:
         runner.crawl(crawspider,rule)
@@ -36,5 +34,5 @@ if __name__ =="__main__":
     contents=mail.get_maile_content()
     contents.insert(0,'use time : %s'% (endtime-starttime))
     contents.insert(0,'crawl item count : %s'%(endcount-startcount))
-    mail.send_mail(subject='Spider All finished',contents=contents)
+    mail.sendmail(subject='Spider All finished',contents=contents)
 

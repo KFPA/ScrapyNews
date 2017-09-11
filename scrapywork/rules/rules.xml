@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
  <rules>
 
-   <rule category="base" name="iaaf" allow_domains="iaaf.org" >
+   <rule category="base" name="iaaf" allow_domains="iaaf.org" foreign="1">
     <urls>
       <host_url>https://www.iaaf.org</host_url>
       <start_urls>https://www.iaaf.org/news</start_urls>
-  
+
       <urllist pagestep="12" pages="1000" url_regex=" \&apos;Articleurl\&apos;:\&apos;(.*?)\&apos;">
 	   <next_page>https://www.iaaf.org/data/news/typegroup/?take=12&amp;skip={}</next_page>
 	  </urllist>
-        
+
       </urls>
     <xpath>
-      
+
       <title>//div[@id="news"]/div/div/h1[@itemprop="name"]/text()</title>
       <time>//div[@id="news"]/div/div/span/span[@itemprop="datePublished"]/text()</time>
       <type>//div[@id="news"]/div/div/span/span[@class="_label type"]/a/text()</type>
@@ -21,21 +21,21 @@
       <text>//div[@id="news"]/div/div/article[@itemprop="articleBody"]/p/text()</text>
       <imglink>//div[@id="news"]/div/div/ul/li/picture/img/@src | //div[@id="news"]/div/div/ul/li/picture/source/@srcset</imglink>
       <filelink></filelink>
-          
+
       </xpath>
     </rule>
 
-  <rule category="base" name="mp" allow_domains="kuaizhan.com" >
+  <rule category="base" name="mp" allow_domains="kuaizhan.com" foreign="0">
     <urls>
       <host_url>https://482809.kuaizhan.com</host_url>
       <start_urls>https://482809.kuaizhan.com/</start_urls>
-  
+
       <urllist pagestep="1" pages="1000" url_regex="href=\'(.*?)\'">
         <next_page>https://www.kuaizhan.com/post/ajax-postlist?site_id=4216466368&amp;param=a891b9bfac46d41ebace9eccf88f5bbb&amp;cur_page={}</next_page>
 		</urllist>
      </urls>
     <xpath>
-      
+
       <title>//div[@id="page-content"]/div/div[@class="mod-title t0 "]/h2/text()</title>
       <time>//div[@id="page-content"]/div/div/span[@class="time"]/text()</time>
       <type>//div[@id="news"]/div/div/span/span[@class="_label type"]/a/text()</type>
@@ -43,12 +43,12 @@
       <html>//div[@id="page-content"]/div[@class="mod mod-layout_floor article-hd"] | //div[@id="page-content"]/div/div/div[@class="mod mod-html"]</html>
       <text>//div[@id="page-content"]/div/div/div/div[@class="mp-content"]/p/span/text()</text>
       <imglink>//div[@id="page-content"]/div/div/div/div[@class="mp-content"]/p/img/@src</imglink>
-      <filelink></filelink>       
+      <filelink></filelink>
       </xpath>
 
     </rule>
 
-  <rule category="crawl" name="athletics" allow_domains="athletics.org.cn" >
+  <rule category="crawl" name="athletics" allow_domains="athletics.org.cn" foreign="0">
     <urls>
       <host_url/>
       <start_urls>http://www.athletics.org.cn</start_urls >
@@ -56,10 +56,10 @@
       <urllist list_url=".*/list.html" list_url_total="//div[@class=&quot;page&quot;]/div[@class=&quot;page02&quot;]/text()[1]" allow_url=".*/[0-9]{4}-[0-9]{2}-[0-9]{2}/[0-9]*?\.html">
 		<next_page>//div[@class="nav styfff fl clear"]/ul/li/a | //div[@class="wjxz styff"]/ul/li/a</next_page>
 	   </urllist >
-        
+
       </urls>
 
-    <xpath>     
+    <xpath>
       <title>//div[@class="main"]/div[@class="atitle"]/text() | //div[@class="main"]/div[@class="atitle"]/font/text()</title>
       <time>//div[@class="main"]/div[@class="a01 sty999"]/span/text()</time>
       <type>//div[@class="wei"]/a[2]/text()</type>
@@ -67,7 +67,7 @@
       <html>//div[@class="main"]</html>
       <text>//div[@class="main"]/div[@class="atext"]/p/text()</text>
       <imglink>//div[@class="main"]/div[@class="atext"]/p/img/@src</imglink>
-      <filelink>//div[@class="main"]/div[@class="atext"]/p/a/@href</filelink>          
+      <filelink>//div[@class="main"]/div[@class="atext"]/p/a/@href</filelink>
       </xpath>
 
     </rule>
