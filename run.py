@@ -12,7 +12,7 @@ import datetime
 if __name__ =="__main__":
     settings=get_project_settings()
     configure_logging(settings)
-    mail=Mail(sender='*****',passwd='******',receiver='*****')
+    mail=Mail(sender='kfpapanda@163.com',passwd='kfpapanda163',receiver='wpp10345@cnki.com')
     runner=CrawlerRunner(settings)
     for rule in spiderrules.crawlrules:
         runner.crawl(crawspider,rule)
