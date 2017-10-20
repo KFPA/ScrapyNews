@@ -1,7 +1,8 @@
 import requests
 import urllib
 import logging
-IPPOOL=[]
+from scrapywork.settings import IPPOOL
+from scrapywork.settings import USE_SPECIFIED_IPPOOL
 import re
 
 def gethtmlXiciDaili():
@@ -45,6 +46,7 @@ def detectip(ipaddr):
 
 
 def initIPPOOL():
+    if not USE_SPECIFIED_IPPOOL:
         logging.info('构建IP池')
         html = gethtmlXiciDaili()
         parsehtml(html)

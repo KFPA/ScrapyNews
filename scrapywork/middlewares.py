@@ -8,6 +8,9 @@
 from scrapy import signals
 import random
 from scrapy.contrib.downloadermiddleware.httpproxy import HttpProxyMiddleware
+from scrapywork.settings import IPPOOL
+from scrapywork.spiders.ipSpider import initIPPOOL
+
 from scrapy.contrib.downloadermiddleware.useragent import UserAgentMiddleware
 from scrapywork.settings import UAPOOL
 
@@ -63,15 +66,14 @@ class ScrapyworkSpiderMiddleware(object):
         spider.logger.info('Spider opened: %s' % spider.name)
 
 
-from scrapywork.models import Ipproxy as IP
+
 class IpPoolsMiddleware(HttpProxyMiddleware):
     def __init__(self,ip=''):
         self.ip=ip
     def process_request(self, request, spider):
-        if spider.rule.foreign == '0':
-            request.meta['proxy']='http://'+IP.getinlandipproxy()
-        else:
-            request.meta['proxy']='http://'+IP.getforeignipproxy()
+        thisip = random.choice(IPPOOL)
+        print('the current ip is:'+ thisip['ipaddr'])
+        request.meta['proxy']='http://'+thisip['ipaddr']
 
 
 class UaPoolsMiddleware(UserAgentMiddleware):
@@ -79,6 +81,7 @@ class UaPoolsMiddleware(UserAgentMiddleware):
         self.user_agent=user_agent
     def process_request(self, request, spider):
         thisua=random.choice(UAPOOL)
+        print('the current user-agent is:'+ thisua)
         request.headers.setdefault('User-Agent',thisua)
 
 class UrlCanonicalizerMiddleware(object):
