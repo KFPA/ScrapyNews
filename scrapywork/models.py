@@ -467,6 +467,7 @@ class CHfs(object):
             bRet=self.hfsdll.InitApplication(bytes(hfs.get('ipaddr'),'utf-8'), int(hfs.get('port')), int(hfs.get('appid')), bytes(hfs.get('appname'),'utf-8'),bytes(hfs.get('appkey'),'utf-8'))
             if not bRet:
                 logging.error('----------------hfsdll init failed.----------------')
+                exit(1)
             else:
                 logging.info('-------------------hfsdll load success.----------------')
         else:
@@ -534,7 +535,7 @@ class CHfs(object):
         return bRet
 
 
-#hfs=CHfs()
+hfs=CHfs()
 
 
 #################################################################################################################################################

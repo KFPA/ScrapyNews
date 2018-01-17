@@ -6,7 +6,7 @@
       <host_url>https://www.iaaf.org</host_url>
       <start_urls>https://www.iaaf.org/news</start_urls>
 
-      <urllist pagestep="12" pages="1000" url_regex=" \&apos;Articleurl\&apos;:\&apos;(.*?)\&apos;">
+      <urllist pagestep="12" pages="1000" url_regex="&quot;Articleurl&quot;:&quot;(.*?)&quot;">
 	   <next_page>https://www.iaaf.org/data/news/typegroup/?take=12&amp;skip={}</next_page>
 	  </urllist>
 
@@ -17,15 +17,36 @@
       <time>//div[@id="news"]/div/div/span/span[@itemprop="datePublished"]/text()</time>
       <type>//div[@id="news"]/div/div/span/span[@class="_label type"]/a/text()</type>
       <publish>//div[@id="news"]/div[1]/div[3]/span/span[@class="_label location"]/text()</publish>
-      <html regexexclude="&lt;ul class='col-md-12 prev-next&apos;.*?&lt;/ul&gt;">//div[@id="news"</html>
+      <html regexexclude="&lt;ul class='col-md-12 prev-next&apos;.*?&lt;/ul&gt;">//div[@id="news"]</html>
       <text>//div[@id="news"]/div/div/article[@itemprop="articleBody"]/p/text()</text>
       <imglink>//div[@id="news"]/div/div/ul/li/picture/img/@src | //div[@id="news"]/div/div/ul/li/picture/source/@srcset</imglink>
       <filelink></filelink>
 
       </xpath>
     </rule>
+  <rule category="base" name="mp.sohu" allow_domains="www.sohu.com" foreign="0">
+    <urls>
+      <host_url>http://</host_url>
+      <start_urls>http://www.sohu.com</start_urls>
 
-  <rule category="base" name="mp" allow_domains="kuaizhan.com" foreign="0">
+      <urllist pagestep="1" pages="1000" url_regex="&quot;url\\&quot;:\\&quot;//(.*?)&quot;">
+        <next_page>http://mp.sohu.com/apiV2/profile/newsListAjax?xpt=dHJhY2tmdW5Ac29odS5jb20=&amp;pageNumber={}&amp;pageSize=10&amp;categoryId=&amp;_=1510717270992</next_page>
+		</urllist>
+     </urls>
+
+    <xpath>
+      <title>//div[@id="article-container"]/div/div/div[@class="text-title"]/h1/text()</title>
+      <time>//div[@id="article-container"]/div/div/div[@class="text-title"]/div[@class="article-info"]/span[@id="news-time"]/text()</time>
+      <type>//div[@id="article-container"]/div/div/div[@class="text-title"]/div[@class="article-info"]/span[@class="tag"]/a/text()</type>
+      <publish>//div[@id="article-container"]/div/div/div[@class="text-title"]/div[@class="article-info"]/span[@data-role="original-link"]/a/text()</publish>
+      <html>//div[@id="article-container"]/div[@class="left main"]/div[@class="text"]</html>
+      <text>//div[@id="article-container"]/div[2]/div[1]/article/p/span/text() | //div[@id="article-container"]/div[2]/div[1]/article/p/span/strong/span/text()</text>
+      <imglink>//div[@id="article-container"]/div/div/article/p/img/@src</imglink>
+      <filelink></filelink>
+      </xpath>
+
+    </rule>
+  <!--<rule category="base" name="mp" allow_domains="kuaizhan.com" foreign="0">
     <urls>
       <host_url>https://482809.kuaizhan.com</host_url>
       <start_urls>https://482809.kuaizhan.com/</start_urls>
@@ -47,7 +68,7 @@
       </xpath>
 
     </rule>
-
+-->
   <rule category="crawl" name="athletics" allow_domains="athletics.org.cn" foreign="0">
     <urls>
       <host_url/>

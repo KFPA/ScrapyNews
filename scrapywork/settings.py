@@ -37,7 +37,9 @@ COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
-
+import scrapywork.logger as log
+logging = log.logger()
+LOG_FILE=logging.getLogfile()
 # Override the default request headers:
 DEFAULT_REQUEST_HEADERS = {
     'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.86 Safari/537.36',
@@ -48,7 +50,7 @@ DEFAULT_REQUEST_HEADERS = {
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 SPIDER_MIDDLEWARES = {
-#    'scrapywork.middlewares.ScrapyworkSpiderMiddleware': 543,
+    'scrapywork.middlewares.ScrapyworkSpiderMiddleware': 543,
     'scrapywork.middlewares.UrlCanonicalizerMiddleware':543
 }
 
@@ -105,14 +107,14 @@ DUPEFILTER_CLASS='scrapywork.middlewares.UrlFilter'
 #SCHEDULER_MEMORY_QUEUE='scrapy.squeue.FifoMemoryQueue'
 
 #下载文件设置
-FILES_STORE='E:\\Data\\Files'
+FILES_STORE='D:\\Data\\Files'
 FILES_URLS_FIELD='file_urls'
 FILES_RESULT_FIELD='files'
 FILES_EXPIRES=30      #30 天过期
 FILES_UPLOAD_PATH='SPORTS\\FILES'
 
 #下载图片设置
-IMAGES_STORE='E:\\Data\\Images'
+IMAGES_STORE='D:\\Data\\Images'
 IMAGES_URLS_FIELD='image_urls'
 IMAGES_RESULT_FIELD='images'
 IMAGES_EXPIRES=30   #30 天过期
@@ -127,18 +129,19 @@ IMAGES_UPLOAD_PATH_SMALL='SPORTS\\IMAGES\\SMALL'
 
 
 hfs={
-    'ipaddr':'192.168.25.88',
+    'ipaddr':'192.168.105.91',
     'port':'8810',
-    'appid':'5128',
+    'appid':'13320',
     'appname':'TSPIDER',
-    'appkey':'a4abd5be185adf4fff3dd7e04f573403',
+    'appkey':'3d6a9f9dd58950049bd9afabd0f0a2fc',
+
 }
 
 
 db = {      'host': '127.0.0.1',
             'port': '3306',
-            'user': 'root',
-            'passwd': 'kfpa',
+            'user': 'LibSvr',
+            'passwd': 'P@$$W0rd',
             'db': 'article',
             'table':'articleinfo',
             'charset':'utf8'

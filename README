@@ -1,74 +1,7 @@
-关于新闻爬虫的介绍
+# ScrapyNews
+采用scrapy框架抓取新闻的项目
 
-什么是爬虫
-
-网络爬虫是一种按照一定的规则，自动的爬取万维网信息的程序或者脚本。网络爬虫按照系统结构和实现技术，大致分为通用爬虫，聚焦爬虫，增量式爬虫，深层网络爬虫。但是实际应用中一般都是几种爬虫技术相结合实现的。
-搜索引擎其实是一种大型的复杂的网络爬虫属于通用爬虫的范畴。专业性质的搜索引擎则是属于聚焦爬虫的范畴。增量式爬虫则是对已下载的网页采取增量式更新和只爬取新产生的或者已经发生变化的网页的爬虫。Web网页按照存在的方式可以分为表层网页和深层网页，表层网页通常是指传统引擎可以索引的页面，以超链接可以到达的静态网页为主构成的Web页面；深层网络是那些大部分内容不能通过静态链接获取的、隐藏在搜索表单后的，只有用户提交一些关键词才能获取的Web页面。爬取深层网络页面的爬虫就属于深层网络爬虫的范畴。
-爬虫的工作流程
- 
-1．	首先选取一部分或者一个精心挑选的中字URL；
-
-2．	将这些URL放入带抓取的URL队列；
-
-3．	从待抓取的URL队列中读取待抓取的URL，解析DNS，并且得到主机的IP，并将URL对应的网页下载下来，存储到已下载的网页数据中。并且将这些URL放进已抓取的URL队列中；
-
-4．	分析已抓取URL队列中URL，从已下载的网页数据中分析出其他的URL，并和已抓取的URL进行去重处理，最后将去重后的URL放入待抓取URL队列，从而进入下一个循环。
-爬虫的python实现框架Scrapy
-
-爬虫的python实现的库有很多，主要有urllib,httplib/urllib,requests.这里主要讲一下Scrapy框架。
-
-Scrapy使用python写的Crawler Framwork，简单轻巧，并且非常方便。Scrapy使用的是Twisted异步网络库来处理网络通信，架构清晰，并且包含了各种中间件接口，可以灵活的完成各种需求。
- 
-1.	引擎打开一个网站，找到处理改网站的spider并向该spider请求第一个要爬取的URL；
-
-2.	引擎从Spider中获取的第一个要爬取的URL并通过调度器（Scheduler）以Requests进行调度；
-
-3.	引擎向调度器（Scheduler）请求下一个要爬取的URL;
-
-4.	调度器（Scheduler）返回下一个要爬取的URL给引擎（Scrapy Engine），引擎将URL通过下载器中间件（Downloader Middleware）转发给下载器；
-
-5.	一旦页面下载完毕，下载器生成一个该页面的Response，并将其通过下载器中间件转发给引擎；
-
-6.	引擎从下载器中间件接收到Response并通过spider中间件发送给spider处理；
-
-7.	Spider处理Response并返回爬取到的Item和新的Request给引擎；
-
-8.	引擎将爬取到的item给Item Pipeline,将Request给调度器；
-
-9.	从第2步开始重复直到调度器中没有Request，引擎关闭该网站。
-
-新闻爬虫ScrapyNews项目
-
-采用scrapy框架抓取新闻的项目,整个项目是用python面向对象编程。
-
-项目地址：https://github.com/KFPA/ScrapyNews
-
-部署环境
-
-Windows环境下部署：
-
-1.	安装python，项目是在最新的python3.6版本的基础上搭建的。
-
-2.	安装python对应版本的必要的组件pywin32,这个组件可以采用pip的方式安装，也可以直接下载安装。建议手动下载安装https://sourceforge.net/projects/pywin32/；
-
-3.	安装scrapy框架，采用pip install scrapy安装，需要首先安装Micsoft visual studio 14.0 tools，安装此工具需要提前安装.net framework 4.5以上的环境，可按照提示自行安装。
-
-4.	安装bs4，pymysql,requests,cv2 pillow,pybloom:pip install bs4 pymysql requests opencv-python pillow pybloom;(pybloom 建议下载源码安装)
-
-5.	下载sqlite,路径添加到环境变量 
-
-6.	安装requests,chardet,web.py,gevent: pip install requests chardet web.py sqlalchemy gevent 
-
-7.	安装lxml: pip install lxml或者下载lxml windows版 
-
-注意：
-
-python3下的是pip3
-有时候使用的gevent版本过低会出现自动退出情况，请使用pip install gevent --upgrade更新)
-Sqlalchemy 可以直接使用源码安装
-在python3中安装web.py，不能使用pip，直接下载py3版本的源码进行安装
-
-十大特点：
+特点：
 
 1.采用IP池，防止目的网站封锁ip，IP池采用的是IPProxy开源项目，提供的ip很稳定，数目足够，完全可以满足个人或者小型的项目使用；
 
@@ -76,26 +9,22 @@ Sqlalchemy 可以直接使用源码安装
 
 3.智能延迟，爬去网页间隔时间可以智能的调节；
 
-4.采用mysqldb第三方库将数据存储在MySQL数据库，并且通过mysql的查询进行增量式的爬取；
+4.数据存储采用MySQL数据库，并且通过mysql的查询进行增量式的爬取；
 
 5.爬虫规则采用xml的形式自定义，可以满足不同形式的网站结构进行爬取新闻文章，而且可以根据scrapy框架提供的不同形式的spider做相应的类型扩展，也可以自己写不同形式的spider以满足各种不同的爬取需求而且一劳永逸；
 
-6.爬虫是以模板的形式存在的，目前该项目实现了两个模板CrawlSpider,BaseSpider，之后还可以继续扩展XMLFeedSpider,CSVFeedSpider,SitemapSpider等模板，从更加丰富项目的功能。
+6.基于scrapy爬虫框架，scrapy能做的它都是可以做的；
 
-7.基于scrapy爬虫框架，下载图片和各种文件，图片还可以支持生成缩略图的功能。一句话只要scrapy能做的它都是可以做的；
+7.使用中间件，包括下载中间件和爬虫中间件；
 
-8.使用中间件，包括下载中间件和爬虫中间件；通过使用下载器中间件过滤获取到的URL是否已经存在在Mysql数据库中，从事过滤已经爬取过的网页。
-
-9.采用邮件通知，可以随时随地的远程监控爬虫的工作状态；
-
-10.通过引用opencv2图像处理库重载ImagesPipeline改进了scrapy自带的图片下载库对于特殊图片处理出错的问题。
+8.采用邮件通知，可以随时随地的远程监控爬虫的工作状态；
 
 扩展目标：
 
 做可视化的爬虫生成器
-
 这个爬虫工程算是通向可视化爬虫的一个台阶，一次性迈到可视化爬虫portia似乎步子太大，容易扯到蛋，通过这个项目能够更好的理解scrapy框架的工作原理，并且可以自定义通用的爬虫。
 爬虫说来说去也就是那么几种，不同的就是每个爬虫爬取网站时数据提取时的规则，大家可以自定义的写自己的规则，就可以通过这类的爬虫爬取信息，写爬虫变成了写规则，这无疑是更方便的！
 
 有一点需要注意portia项目它的可视化爬虫是通过可视化的界面写出一个规定的爬虫来，这个爬虫只能够做对应网站的数据爬取的！
 这个项目如果做成可视化爬虫的话，他的目的不是生成一个爬虫，而是生成一个类型的爬虫规则，把这个规则输入到对应的爬虫中就可以爬取数据，这两者其实还是有区别的！
+

@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import re
-import logging
-from scrapywork.models import ItemParser
+from scrapywork.items import articleItem
 
-class BasespiderTemplate(scrapy.Spider):
+
+class AutoSpider(scrapy.Spider):
+    name = 'autoSpider'
+
 
     def __init__(self,rule):
         self.rule=rule
-        self.name = rule.name
         self.allowed_domains = rule.allow_domains.split(',')
         self.urllist=[]
-        super(BasespiderTemplate,self).__init__()
+        super(AutoSpider,self).__init__()
 
     def start_requests(self):
         try:
@@ -19,7 +20,7 @@ class BasespiderTemplate(scrapy.Spider):
                 url=self.rule.next_page_url.format(str(i))
                 yield scrapy.Request(url,callback=self.parse_url)
         except:
-            logging.error('basespider request failed :%s',self.rule.name)
+            print('autospider request failed')
 
     def parse_url(self,response):
         try:
@@ -29,17 +30,17 @@ class BasespiderTemplate(scrapy.Spider):
             for url in urls:
                 self.urllist.append(host_url+url)
         except:
-            logging.error('base spider urllist error： %s',self.rule.name)
+            print('auto spider urllist error.')
         finally:
             for url in self.urllist:
                 try:
                     url=url.replace('\\','')
                     yield scrapy.Request(url,callback=self.parse_item)
-                except Exception as e:
-                    logging.error('request error code: ',e)
+                except:
                     continue
 
     def parse_item(self,response):
-        logging.info('This is article page %s',response.url)
-        itemparser=ItemParser(rule=self.rule,response=response)
-        yield itemparser.parse_item()
+        self.log('this is iaaf article page %s' % response.url)
+        articleInfo = articleItem()
+        parse_item(self.rule,response,articleInfo)
+        yield articleInfo
