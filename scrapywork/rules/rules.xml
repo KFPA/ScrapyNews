@@ -1,52 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
  <rules>
-
-   <rule category="base" name="iaaf" allow_domains="iaaf.org" foreign="1">
+  <rule category="base" name="dianli" allow_domains="www.epri.sgcc.com.cn" foreign="0">
     <urls>
-      <host_url>https://www.iaaf.org</host_url>
-      <start_urls>https://www.iaaf.org/news</start_urls>
+      <host_url>http://www.epri.sgcc.com.cn</host_url>
+      <start_urls>http://www.epri.sgcc.com.cn</start_urls>
 
-      <urllist pagestep="12" pages="1000" url_regex="&quot;Articleurl&quot;:&quot;(.*?)&quot;">
-	   <next_page>https://www.iaaf.org/data/news/typegroup/?take=12&amp;skip={}</next_page>
-	  </urllist>
-
-      </urls>
-    <xpath>
-
-      <title>//div[@id="news"]/div/div/h1[@itemprop="name"]/text()</title>
-      <time>//div[@id="news"]/div/div/span/span[@itemprop="datePublished"]/text()</time>
-      <type>//div[@id="news"]/div/div/span/span[@class="_label type"]/a/text()</type>
-      <publish>//div[@id="news"]/div[1]/div[3]/span/span[@class="_label location"]/text()</publish>
-      <html regexexclude="&lt;ul class='col-md-12 prev-next&apos;.*?&lt;/ul&gt;">//div[@id="news"]</html>
-      <text>//div[@id="news"]/div/div/article[@itemprop="articleBody"]/p/text()</text>
-      <imglink>//div[@id="news"]/div/div/ul/li/picture/img/@src | //div[@id="news"]/div/div/ul/li/picture/source/@srcset</imglink>
-      <filelink></filelink>
-
-      </xpath>
-    </rule>
-  <rule category="base" name="mp.sohu" allow_domains="www.sohu.com" foreign="0">
-    <urls>
-      <host_url>http://</host_url>
-      <start_urls>http://www.sohu.com</start_urls>
-
-      <urllist pagestep="1" pages="1000" url_regex="&quot;url\\&quot;:\\&quot;//(.*?)&quot;">
-        <next_page>http://mp.sohu.com/apiV2/profile/newsListAjax?xpt=dHJhY2tmdW5Ac29odS5jb20=&amp;pageNumber={}&amp;pageSize=10&amp;categoryId=&amp;_=1510717270992</next_page>
+      <urllist pagestep="1" pages="3" url_regex="&lt;a\s*objid=&quot;6055&quot;\s*href=&quot;(.*?)&quot;&gt;">
+        <next_page>http://www.epri.sgcc.com.cn/html/epri/col1010010031/column_1010010031_{}.html</next_page>
 		</urllist>
      </urls>
 
     <xpath>
-      <title>//div[@id="article-container"]/div/div/div[@class="text-title"]/h1/text()</title>
-      <time>//div[@id="article-container"]/div/div/div[@class="text-title"]/div[@class="article-info"]/span[@id="news-time"]/text()</time>
-      <type>//div[@id="article-container"]/div/div/div[@class="text-title"]/div[@class="article-info"]/span[@class="tag"]/a/text()</type>
-      <publish>//div[@id="article-container"]/div/div/div[@class="text-title"]/div[@class="article-info"]/span[@data-role="original-link"]/a/text()</publish>
-      <html>//div[@id="article-container"]/div[@class="left main"]/div[@class="text"]</html>
-      <text>//div[@id="article-container"]/div[2]/div[1]/article/p/span/text() | //div[@id="article-container"]/div[2]/div[1]/article/p/span/strong/span/text()</text>
-      <imglink>//div[@id="article-container"]/div/div/article/p/img/@src</imglink>
-      <filelink></filelink>
+      <title>//div[@id="container"]/div/div[@class="content"]/h1/span/text()</title>
+      <time>//div[@id="container"]/div/div[@class="content"]/p[@class="content_time"]/span/text()</time>
+      <type></type>
+      <publish></publish>
+      <html>//div[@id="container"]/div/div[@class="content"]</html>
+      <text></text>
+      <imglink></imglink>
+      <filelink>//div[@id="container"]/div/div[@class="content"]/span/a/@href | //div[@id="container"]/div/div[@class="content"]/span/div[@align="center"]/a/@href</filelink>
       </xpath>
 
     </rule>
-  <!--<rule category="base" name="mp" allow_domains="kuaizhan.com" foreign="0">
+  <rule category="base" name="dianwang" allow_domains="ecp.sgcc.com.cn" foreign="0">
+    <urls>
+      <host_url>http://ecp.sgcc.com.cn</host_url>
+      <start_urls>http://ecp.sgcc.com.cn</start_urls>
+      <urllist pagestep="1" pages="3" url_regex="'(\d*)',\s'(\d*)'" url_format="http://ecp.sgcc.com.cn/html/news/{}/{}.html">
+        <next_page>http://ecp.sgcc.com.cn/html/topic/all/topic00/list_{}.html</next_page>
+		</urllist>
+     </urls>
+
+    <xpath>
+      <title>//body/div[@class="article"]/div[@class="articleTitle font04"]/text()</title>
+      <time>//body/div[@class="article"]/div[@class="articleTitle_details"]/text()</time>
+      <type></type>
+      <publish></publish>
+      <html>//body/div[@class="article"]</html>
+      <text></text>
+      <imglink></imglink>
+      <filelink>//div[@class="article"]/p[@class="bot_list"]/a/@href|//div[@class="article"]/table/tbody/tr/td/a/@href</filelink>
+      </xpath>
+
+    </rule>
+  <!--
+  /html/body/div[6]/table/tbody/tr[11]/td[2]/a
+  <rule category="base" name="mp" allow_domains="kuaizhan.com" foreign="0">
     <urls>
       <host_url>https://482809.kuaizhan.com</host_url>
       <start_urls>https://482809.kuaizhan.com/</start_urls>
@@ -69,32 +68,7 @@
 
     </rule>
 -->
-  <rule category="crawl" name="athletics" allow_domains="athletics.org.cn" foreign="0">
-    <urls>
-      <host_url/>
-      <start_urls>http://www.athletics.org.cn</start_urls >
-
-      <urllist list_url=".*/list.html" list_url_total="//div[@class=&quot;page&quot;]/div[@class=&quot;page02&quot;]/text()[1]" allow_url=".*/[0-9]{4}-[0-9]{2}-[0-9]{2}/[0-9]*?\.html">
-		<next_page>//div[@class="nav styfff fl clear"]/ul/li/a | //div[@class="wjxz styff"]/ul/li/a</next_page>
-	   </urllist >
-
-      </urls>
-
-    <xpath>
-      <title>//div[@class="main"]/div[@class="atitle"]/text() | //div[@class="main"]/div[@class="atitle"]/font/text()</title>
-      <time>//div[@class="main"]/div[@class="a01 sty999"]/span/text()</time>
-      <type>//div[@class="wei"]/a[2]/text()</type>
-      <publish>//div[@class="main"]/div[@class="a01 sty999"]/a/text()</publish>
-      <html>//div[@class="main"]</html>
-      <text>//div[@class="main"]/div[@class="atext"]/p/text()</text>
-      <imglink>//div[@class="main"]/div[@class="atext"]/p/img/@src</imglink>
-      <filelink>//div[@class="main"]/div[@class="atext"]/p/a/@href</filelink>
-      </xpath>
-
-    </rule>
 	</rules>
-
-
 <!--
 &lt; < 小于号 
 &gt; > 大于号 

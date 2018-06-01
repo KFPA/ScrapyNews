@@ -6,7 +6,7 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 from scrapy.exceptions import DropItem
 from scrapywork.models import mysqldb
-from scrapywork.models import hfs
+#from scrapywork.models import hfs
 
 
 
@@ -15,10 +15,14 @@ from scrapy.pipelines.images import ImagesPipeline
 from PIL import Image
 from io import BytesIO
 from scrapy.pipelines.files import FileException
+import scrapy
 import six
 import logging
 
 class ArticlePipeline(object):
+    def get_media_request(self,item,info):
+        for url in item['file_urls']:
+            yield scrapy.Request(url)
     def process_item(self,item,spider):
         try:
             self._mysqldb_insertitem(item)
@@ -38,23 +42,23 @@ class ArticlePipeline(object):
             imagename = image['path'].split('/')[-1]
             htmlreplace = htmlreplace.replace(str(image['url']), str(imagename))
             source.append(imagename)
-            hfs.UploadStreamXImages(imagename)
+            #hfs.UploadStreamXImages(imagename)
         for file in files:
             logging.info(file)
             filename = file['path'].split('/')[-1]
             htmlreplace = htmlreplace.replace(str(file['url']),str(filename))
             source.append(filename)
-            hfs.UploadStreamXFiles(filename)
+            #hfs.UploadStreamXFiles(filename)
         return '|'.join(source),htmlreplace
 
     def _mysqldb_insertitem(self,item):
         sources, html = self._parse_sourceandhtml(item['images'], item['files'], item['html'])
         time = item['time']
+        item['html']=html
 
-
-        mysqldb.insertItem(url=item['url'],site=item['site'],title=item['title'],time=time,type=item['type'],publish=item['publish'],
-                           html=html,text=item['text'],xml=item['xml'],sources=sources)
-
+        # mysqldb.insertItem(url=item['url'],site=item['site'],title=item['title'],time=time,type=item['type'],publish=item['publish'],
+        #                    html=html,text=item['text'],xml=item['xml'],sources=sources)
+        mysqldb.insertItem(item,sources)
 
 import tempfile
 import cv2

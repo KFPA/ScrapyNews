@@ -4,6 +4,6 @@ greenlet==0.4.11
 lxml==3.7.1
 requests==2.12.4
 SQLAlchemy==1.1.4
-web.py==0.38
+web.py==0.40.dev0
 redis==2.10.5
 psutil
