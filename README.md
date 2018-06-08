@@ -17,7 +17,8 @@ http://www.cnblogs.com/kfpa/
 ## windows环境
 1.安装Mysql数据库，可以直接去官网安装https://www.mysql.com/
 
-2.安装Microsoft Visual c++ 14.0,可以从微软官网上下载exe安装，http://landinghub.visualstudio.com/visual-cpp-build-tools，scrapy中twisted需要此开发包支持
+2.安装Microsoft Visual c++ 14.0,可以从微软官网上下载exe安装，http://landinghub.visualstudio.com/visual-cpp-build-tools，
+scrapy中twisted需要此开发包支持
 
 3.安装requests,chardet,web.py,gevent psutil: pip install requests chardet web.py sqlalchemy gevent psutil 
 
