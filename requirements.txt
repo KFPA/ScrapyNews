@@ -1,0 +1,5 @@
+pypiwin32
+scrapy
+bs4
+pillow
+opencv-python
