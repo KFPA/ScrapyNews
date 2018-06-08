@@ -17,11 +17,23 @@ http://www.cnblogs.com/kfpa/
 ## windows环境
 1.安装Mysql数据库，可以直接去官网安装https://www.mysql.com/
 
-2.安装requests,chardet,web.py,gevent psutil: pip install requests chardet web.py sqlalchemy gevent psutil 
+2.安装Microsoft Visual c++ 14.0,可以从微软官网上下载exe安装，http://landinghub.visualstudio.com/visual-cpp-build-tools，scrapy中twisted需要此开发包支持
 
-3.安装pywin32,scrapy，bs4,pillow,opencv-python:pip install pywin32 scrapy bs4 pillow opencv-python
+3.安装requests,chardet,web.py,gevent psutil: pip install requests chardet web.py sqlalchemy gevent psutil 
+
+4.安装pywin32,scrapy，bs4,pillow,opencv-python,pymysql:pip install pywin32 scrapy bs4 pillow opencv-python pymysql
+
+# 配置项目
+
+1.启用ipproxypool项目
+  ScrapyNews/IPProxyPool-master/config.py文件内的DB_CONFIG下修改'DB_CONFIG_STRING':'mysql+pymysql':'//username(mysql数据库用户名)：password(数据库密码)@localhost/数据库中创建的数据库名称?charset=utf8'
+2.启用scrapynews项目
+  ScrapyNews/Scrapywork/setting.py文件内的db={}中将user和passwd都修改为指定的mysql数据库的用户名和密码，并且创建一个article的数据库
+ 
 
 
+##  注意:
+	创建数据库是指定编码形式为utf-8；例 create database db default character set=utf8
 # 特点：
 
 1.采用IP池，防止目的网站封锁ip，IP池采用的是IPProxy开源项目，提供的ip很稳定，数目足够，完全可以满足个人或者小型的项目使用；

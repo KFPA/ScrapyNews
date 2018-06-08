@@ -14,7 +14,7 @@ if __name__ =="__main__":
     configure_logging(install_root_handler=False)
     settings=get_project_settings()
     configure_logging(settings)
-    mail=Mail(sender='kfpapanda@163.com',passwd='WUPANWANG123',receiver='kfpapanda@163.com')
+    mail=Mail(sender='kfpapanda@163.com',passwd='kfpapanda163',receiver='kfpapanda@163.com')
     runner=CrawlerRunner(settings)
     for rule in spiderrules.crawlrules:
         runner.crawl(crawspider,rule)
