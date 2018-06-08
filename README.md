@@ -16,8 +16,10 @@ http://www.cnblogs.com/kfpa/
 
 ## windows环境
 1.安装Mysql数据库，可以直接去官网安装https://www.mysql.com/
+
 2.安装requests,chardet,web.py,gevent psutil: pip install requests chardet web.py sqlalchemy gevent psutil 
-3.安装pypwin32,scrapy，bs4,pillow,opencv-python:pip install pywin32 scrapy bs4 pillow opencv-python
+
+3.安装pywin32,scrapy，bs4,pillow,opencv-python:pip install pywin32 scrapy bs4 pillow opencv-python
 
 
 # 特点：
