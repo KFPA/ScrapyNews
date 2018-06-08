@@ -20,7 +20,7 @@ http://www.cnblogs.com/kfpa/
 3.安装pypwin32,scrapy，bs4,pillow,opencv-python:pip install pywin32 scrapy bs4 pillow opencv-python
 
 
-特点：
+# 特点：
 
 1.采用IP池，防止目的网站封锁ip，IP池采用的是IPProxy开源项目，提供的ip很稳定，数目足够，完全可以满足个人或者小型的项目使用；
 
@@ -42,9 +42,7 @@ http://www.cnblogs.com/kfpa/
 
 10.自定义数据库字段，自定义爬取的文章字段；
 
-环境部署：
-
-扩展目标：
+# 扩展目标：
 
 做可视化的爬虫生成器
 这个爬虫工程算是通向可视化爬虫的一个台阶，一次性迈到可视化爬虫portia似乎步子太大，容易扯到蛋，通过这个项目能够更好的理解scrapy框架的工作原理，并且可以自定义通用的爬虫。
